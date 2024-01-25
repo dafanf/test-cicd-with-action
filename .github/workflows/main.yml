@@ -1,0 +1,27 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remote connecting to server using SSH, then build and deploy the dockerize project
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd ~/github/macamaca/macamaca-backend
+            git pull origin main
+            sudo docker-compose stop
+            sudo docker-compose up -d --build
+            sudo docker image prune -f
+            curl --location --request POST ${{ secrets.DISCORD_WEBHOOK }} \
+            --header 'Accept: application/json' \
+            --header 'Content-Type: application/json' \
+            --data '{"content":"Berhasil deploy code terbaru dari branch main <@&949976437266464788>","allowed_mentions":{"roles":["949976437266464788"]}}'
