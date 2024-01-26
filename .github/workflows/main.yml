@@ -21,7 +21,3 @@ jobs:
             sudo docker-compose stop
             sudo docker-compose up -d --build
             sudo docker image prune -f
-            curl --location --request POST ${{ secrets.DISCORD_WEBHOOK }} \
-            --header 'Accept: application/json' \
-            --header 'Content-Type: application/json' \
-            --data '{"content":"Berhasil deploy code terbaru dari branch main <@&949976437266464788>","allowed_mentions":{"roles":["949976437266464788"]}}'
