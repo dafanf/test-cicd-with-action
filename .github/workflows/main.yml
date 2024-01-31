@@ -16,7 +16,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            cd ~/github/macamaca/macamaca-backend
+            cd ~/Projects/cicd-action/test-cicd-with-action/
             git pull origin main
             docker-compose stop
             docker-compose up -d --build
